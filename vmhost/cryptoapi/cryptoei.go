@@ -916,12 +916,14 @@ func v1_4_addEC(
 		return
 	}
 
+	//nolint:staticcheck // Using elliptic.Curve interface for flexibility with custom curves
 	if !ec.IsOnCurve(x1, y1) || !ec.IsOnCurve(x2, y2) {
 		_ = vmhost.WithFault(vmhost.ErrPointNotOnCurve, context, runtime.CryptoAPIErrorShouldFailExecution())
 		return
 	}
 
 	managedType.ConsumeGasForBigIntCopy(xResult, yResult, ec.P, ec.N, ec.B, ec.Gx, ec.Gy, x1, y1, x2, y2)
+	//nolint:staticcheck // Using elliptic.Curve interface for flexibility with custom curves
 	xResultAdd, yResultAdd := ec.Add(x1, y1, x2, y2)
 	xResult.Set(xResultAdd)
 	yResult.Set(yResultAdd)
@@ -960,6 +962,7 @@ func v1_4_doubleEC(
 		_ = vmhost.WithFault(vmhost.ErrNoBigIntUnderThisHandle, context, runtime.BigIntAPIErrorShouldFailExecution())
 		return
 	}
+	//nolint:staticcheck // Using elliptic.Curve interface for flexibility with custom curves
 	if !ec.IsOnCurve(x, y) {
 		_ = vmhost.WithFault(vmhost.ErrPointNotOnCurve, context, runtime.CryptoAPIErrorShouldFailExecution())
 		return
@@ -967,6 +970,7 @@ func v1_4_doubleEC(
 
 	managedType.ConsumeGasForBigIntCopy(xResult, yResult, ec.P, ec.N, ec.B, ec.Gx, ec.Gy, x, y)
 
+	//nolint:staticcheck // Using elliptic.Curve interface for flexibility with custom curves
 	xResultDouble, yResultDouble := ec.Double(x, y)
 	xResult.Set(xResultDouble)
 	yResult.Set(yResultDouble)
@@ -1004,6 +1008,7 @@ func v1_4_isOnCurveEC(
 	}
 
 	managedType.ConsumeGasForBigIntCopy(ec.P, ec.N, ec.B, ec.Gx, ec.Gy, x, y)
+	//nolint:staticcheck // Using elliptic.Curve interface for flexibility with custom curves
 	if ec.IsOnCurve(x, y) {
 		return 1
 	}
@@ -1118,7 +1123,9 @@ func commonScalarBaseMultEC(
 
 	managedType.ConsumeGasForBigIntCopy(ec.P, ec.N, ec.B, ec.Gx, ec.Gy, xResult, yResult)
 
+	//nolint:staticcheck // Using elliptic.Curve interface for flexibility with custom curves
 	xResultSBM, yResultSBM := ec.ScalarBaseMult(data)
+	//nolint:staticcheck // Using elliptic.Curve interface for flexibility with custom curves
 	if !ec.IsOnCurve(xResultSBM, yResultSBM) {
 		_ = vmhost.WithFaultAndHost(host, vmhost.ErrPointNotOnCurve, runtime.CryptoAPIErrorShouldFailExecution())
 		return 1
@@ -1247,13 +1254,16 @@ func commonScalarMultEC(
 		_ = vmhost.WithFaultAndHost(host, vmhost.ErrNoBigIntUnderThisHandle, runtime.CryptoAPIErrorShouldFailExecution())
 		return 1
 	}
+	//nolint:staticcheck // Using elliptic.Curve interface for flexibility with custom curves
 	if !ec.IsOnCurve(x, y) {
 		_ = vmhost.WithFaultAndHost(host, vmhost.ErrPointNotOnCurve, runtime.CryptoAPIErrorShouldFailExecution())
 		return 1
 	}
 
 	managedType.ConsumeGasForBigIntCopy(xResult, yResult, ec.P, ec.N, ec.B, ec.Gx, ec.Gy, x, y)
+	//nolint:staticcheck // Using elliptic.Curve interface for flexibility with custom curves
 	xResultSM, yResultSM := ec.ScalarMult(x, y, data)
+	//nolint:staticcheck // Using elliptic.Curve interface for flexibility with custom curves
 	if !ec.IsOnCurve(xResultSM, yResultSM) {
 		_ = vmhost.WithFaultAndHost(host, vmhost.ErrPointNotOnCurve, runtime.CryptoAPIErrorShouldFailExecution())
 		return 1
@@ -1349,6 +1359,7 @@ func commonMarshalEC(
 	if err != nil {
 		return nil, err
 	}
+	//nolint:staticcheck // Using elliptic.Curve interface for flexibility with custom curves
 	if !ec.IsOnCurve(x, y) {
 		return nil, vmhost.ErrPointNotOnCurve
 	}
@@ -1358,6 +1369,7 @@ func commonMarshalEC(
 
 	managedType.ConsumeGasForBigIntCopy(ec.P, ec.N, ec.B, ec.Gx, ec.Gy, x, y)
 
+	//nolint:staticcheck // Using elliptic.Curve interface for flexibility with custom curves
 	result := elliptic.Marshal(ec, x, y)
 	return result, nil
 }
@@ -1447,6 +1459,7 @@ func commonMarshalCompressedEC(host vmhost.VMHost,
 	if err != nil || x == nil || y == nil {
 		return nil, vmhost.ErrNoBigIntUnderThisHandle
 	}
+	//nolint:staticcheck // Using elliptic.Curve interface for flexibility with custom curves
 	if !ec.IsOnCurve(x, y) {
 		return nil, vmhost.ErrPointNotOnCurve
 	}
@@ -1456,6 +1469,7 @@ func commonMarshalCompressedEC(host vmhost.VMHost,
 
 	managedType.ConsumeGasForBigIntCopy(ec.P, ec.N, ec.B, ec.Gx, ec.Gy, x, y)
 
+	//nolint:staticcheck // Using elliptic.Curve interface for flexibility with custom curves
 	result := elliptic.MarshalCompressed(ec, x, y)
 	return result, nil
 }
@@ -1564,7 +1578,9 @@ func commonUnmarshalEC(
 
 	managedType.ConsumeGasForBigIntCopy(ec.P, ec.N, ec.B, ec.Gx, ec.Gy, xResult, yResult)
 
+	//nolint:staticcheck // Using elliptic.Curve interface for flexibility with custom curves
 	xResultU, yResultU := elliptic.Unmarshal(ec, data)
+	//nolint:staticcheck // Using elliptic.Curve interface for flexibility with custom curves
 	if xResultU == nil || yResultU == nil || !ec.IsOnCurve(xResultU, yResultU) {
 		_ = vmhost.WithFaultAndHost(host, vmhost.ErrPointNotOnCurve, runtime.CryptoAPIErrorShouldFailExecution())
 		return 1
@@ -1679,7 +1695,9 @@ func commonUnmarshalCompressedEC(
 
 	managedType.ConsumeGasForBigIntCopy(ec.P, ec.N, ec.B, ec.Gx, ec.Gy, xResult, yResult)
 
+	//nolint:staticcheck // Using elliptic.Curve interface for flexibility with custom curves
 	xResultUC, yResultUC := elliptic.UnmarshalCompressed(ec, data)
+	//nolint:staticcheck // Using elliptic.Curve interface for flexibility with custom curves
 	if xResultUC == nil || yResultUC == nil || !ec.IsOnCurve(xResultUC, yResultUC) {
 		_ = vmhost.WithFaultAndHost(host, vmhost.ErrPointNotOnCurve, runtime.CryptoAPIErrorShouldFailExecution())
 		return 1
@@ -1780,6 +1798,7 @@ func commonGenerateEC(
 	managedType.ConsumeGasForBigIntCopy(ec.P, ec.N, ec.B, ec.Gx, ec.Gy, xPubKey, yPubKey)
 
 	ioReader := managedType.GetRandReader()
+	//nolint:staticcheck // Using elliptic.Curve interface for flexibility with custom curves
 	result, xPubKeyGK, yPubKeyGK, err := elliptic.GenerateKey(ec, ioReader)
 	if err != nil {
 		return nil, err

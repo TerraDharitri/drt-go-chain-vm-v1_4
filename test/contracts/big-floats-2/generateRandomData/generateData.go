@@ -163,6 +163,7 @@ func generateBigFloatsSetBigInt() {
 		_, _ = file.WriteString("BigFloatSetBigIntTest@")
 		numberOfBytes := rand.Intn(200)
 		bigIntBytes := make([]byte, numberOfBytes)
+		//nolint:staticcheck // Using math/rand for deterministic test data generation
 		rand.Read(bigIntBytes)
 
 		hexEncodedBytes := hex.EncodeToString(bigIntBytes)
@@ -209,6 +210,7 @@ func generateDataForBigFloatPow() {
 
 		//exponent
 		exponentBytes := make([]byte, 1)
+		//nolint:staticcheck // Using math/rand for deterministic test data generation
 		rand.Read(exponentBytes)
 		bigExponent := big.NewInt(0).SetBytes(exponentBytes)
 		if rand.Intn(2) == 1 {
@@ -260,6 +262,7 @@ func generateHexEncodedBigFloat() string {
 		encodedBigFloat = append(encodedBigFloat, negativeEncodedBigFloatPrefix[:]...)
 	}
 	randomExponentAndMantissa := make([]byte, 12)
+	//nolint:staticcheck // Using math/rand for deterministic test data generation
 	rand.Read(randomExponentAndMantissa)
 	encodedBigFloat = append(encodedBigFloat, randomExponentAndMantissa...)
 	hexEncodedBigFloat := hex.EncodeToString(encodedBigFloat)
@@ -274,6 +277,7 @@ func generateHexEncodedBigFloatForPow() string {
 		encodedBigFloat = append(encodedBigFloat, negativeEncodedBigFloatForPowPrefix[:]...)
 	}
 	randomExponentAndMantissa := make([]byte, 9)
+	//nolint:staticcheck // Using math/rand for deterministic test data generation
 	rand.Read(randomExponentAndMantissa)
 	encodedBigFloat = append(encodedBigFloat, randomExponentAndMantissa...)
 	hexEncodedBigFloat := hex.EncodeToString(encodedBigFloat)
