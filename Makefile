@@ -168,10 +168,9 @@ endif
 	cp ${SANDBOX}/sc-examples-rs/simple-coin/output/simple-coin.wasm ./test/erc20/contracts/simple-coin.wasm
 
 lint-install:
-ifeq (,$(wildcard test -f bin/golangci-lint))
 	@echo "Installing golint"
-	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s
-endif
+	@mkdir -p bin
+	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b ./bin v1.64.5
 
 run-lint:
 	@echo "Running golint"
