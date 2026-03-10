@@ -24,3 +24,8 @@ jobs:
     - name: Test
       run: |
           make test
+
+    - name: Test (MacOS ARM64)
+      if: runner.os == 'macOS'
+      run: | 
+        make test-w2      

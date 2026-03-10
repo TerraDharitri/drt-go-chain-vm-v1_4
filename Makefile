@@ -18,6 +18,9 @@ endif
 test: clean
 	go test -count=1 ./...
 
+test-w2: clean
+    go test -count=1  ./...	
+
 test-short:
 	go test -short -count=1 ./...
 
