@@ -21,11 +21,15 @@ jobs:
         go-version: ${{ matrix.go-version }}
     - name: Checkout code
       uses: actions/checkout@v4
-    - name: Test
-      run: |
-          make test
+
+    - name: Test (Linux)
+      if: runner.os == 'Linux'
+      run: | 
+        make test
 
     - name: Test (MacOS ARM64)
       if: runner.os == 'macOS'
       run: | 
-        make test-w2      
+        make test-w2
+
+      
