@@ -49,7 +49,7 @@ var RecursiveIterationCounterKey = []byte("recursiveIterationCounter.......")
 var RecursiveIterationBigCounterKey = []byte("recursiveIterationBigCounter....")
 
 // GasProvided value exposed for test usage
-var GasProvided = uint64(1000000)
+var GasProvided = uint64(10000000)
 
 // ParentCompilationCostSameCtx value exposed for test usage
 var ParentCompilationCostSameCtx uint64

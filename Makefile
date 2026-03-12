@@ -1,3 +1,5 @@
+# makefile
+
 .PHONY: test test-short build vmserver clean
 
 VM_VERSION := $(shell git describe --tags --long --dirty --always)
@@ -17,6 +19,9 @@ endif
 
 test: clean
 	go test -count=1 ./...
+
+test-w2: clean
+	DYLD_LIBRARY_PATH=$(PWD)/wasmer go test -count=1 ./...
 
 test-short:
 	go test -short -count=1 ./...
@@ -168,10 +173,9 @@ endif
 	cp ${SANDBOX}/sc-examples-rs/simple-coin/output/simple-coin.wasm ./test/erc20/contracts/simple-coin.wasm
 
 lint-install:
-ifeq (,$(wildcard test -f bin/golangci-lint))
 	@echo "Installing golint"
-	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s
-endif
+	@mkdir -p bin
+	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b ./bin v1.64.5
 
 run-lint:
 	@echo "Running golint"

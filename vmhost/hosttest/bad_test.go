@@ -221,7 +221,7 @@ func TestBadContract_NoPanic_BadRecursive(t *testing.T) {
 				WithBalance(1000)).
 		WithInput(test.CreateTestContractCallInputBuilder().
 			WithRecipientAddr(test.ParentAddress).
-			WithGasProvided(10000000).
+			WithGasProvided(100000000).
 			WithFunction("badRecursive").
 			Build()).
 		WithWasmerSIGSEGVPassthrough(false).
