@@ -2,7 +2,7 @@ name: Build and run tests
 
 on:
   pull_request:
-    branches: [ main, rc/*, feat/* ,dev]
+    branches: [ main, rc/*, feat/* ,dev-madhur ]
     types: [ opened, ready_for_review ]
   push:
   workflow_dispatch:
