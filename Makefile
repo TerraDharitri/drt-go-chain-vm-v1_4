@@ -1,4 +1,3 @@
-# makefile
 
 .PHONY: test test-short build vmserver clean
 
